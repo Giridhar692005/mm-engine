@@ -3,6 +3,7 @@
 #include <list>
 #include <map>
 #include <vector>
+#include <bits/stdc++.h>
 #include "mm/types.hpp"
 
 namespace mm {
@@ -22,6 +23,7 @@ public:
 private:
     std::map<Price, std::list<Order>, std::greater<Price>> bids_;
     std::map<Price, std::list<Order>> asks_;
+    std::unordered_map<OrderId,std::pair<Side,Price>> index;
 };
 
 } 
