@@ -26,8 +26,33 @@ void test_rest_without_cross() {
 }
 
 // TODO(you): fill these in later
-void test_full_fill() {}
-void test_partial_fill_then_rest() {}
+void test_full_fill() {
+    OrderBook book;
+
+book.add_limit_order(Order{1, Side::Sell, 100, 10, 1});
+
+std::vector<Trade> trades=book.add_limit_order(Order{2, Side::Buy, 100, 10, 2});
+    CHECK(trades.size()==1);
+    CHECK(trades[0].qty == 10);
+    CHECK(trades[0].price == 100);
+    CHECK(trades[0].taker_id == 2);
+    CHECK(trades[0].maker_id == 1);
+    CHECK(!book.has_bid());
+    CHECK(!book.has_ask());
+}
+void test_partial_fill_then_rest() {
+    OrderBook book;
+    book.add_limit_order(Order{1, Side::Sell, 100, 10, 1});
+    std::vector<Trade> trades=book.add_limit_order(Order{2, Side::Buy, 100, 15, 2});
+    CHECK(trades.size()==1);
+    CHECK(trades[0].qty == 10);
+    CHECK(trades[0].price == 100);
+    CHECK(trades[0].taker_id == 2);
+    CHECK(trades[0].maker_id == 1);
+    CHECK(book.depth_at(Side::Buy, 100) == 5);
+    CHECK(!book.has_ask());
+}
+
 void test_price_priority() {}
 void test_time_priority_same_price() {}
 void test_trade_price_is_maker_price() {}
