@@ -1,6 +1,5 @@
 import requests
 import pandas as pd
-import matplotlib.pyplot as plt
 import plotly.express as px
 
 SYMBOL = "BTCUSDT"
@@ -22,13 +21,28 @@ def fetch_recent_trades(symbol: str, limit: int) -> pd.DataFrame:
     return df[["time", "side", "price", "qty"]]
 
 def main():
-    df = fetch_recent_trades(SYMBOL,LIMIT)
-    df.to_csv("python/real_trades.csv", index=False)
+    df = fetch_recent_trades(SYMBOL, LIMIT)
+    df.to_csv("data/real_trades.csv", index=False)
     print(df.head())
     print(f"\n{len(df)} trades saved to python/real_trades.csv")
-    fig = px.histogram(df, x="price", nbins=40, title="Price distribution")
-    fig.show()
-    fig.write_html("python/real_data_distributions.html")
+
+    fig_price = px.histogram(df, x="price", nbins=40, title="Price distribution")
+    fig_price.write_html("python/real_price.html")
+
+    fig_qty = px.histogram(df, x="qty", nbins=60, title="Qty distribution")
+    fig_qty.write_html("python/real_qty.html")
+
+    fig_qty_log = px.histogram(df, x="qty", nbins=60, log_y=True, title="Qty distribution (log y)")
+    fig_qty_log.write_html("python/real_qty_log.html")
+
+    fig_side = px.histogram(df, x="side", title="Buy vs sell count")
+    fig_side.write_html("python/real_side.html")
+
+    df["gap_ms"] = df["time"].diff().dt.total_seconds() * 1000
+    fig_gap = px.histogram(df.dropna(), x="gap_ms", nbins=60, log_y=True, title="Time between trades (ms)")
+    fig_gap.write_html("python/real_gap.html")
+
+    print("HTML files written to python/")
 
 if __name__ == "__main__":
     main()
