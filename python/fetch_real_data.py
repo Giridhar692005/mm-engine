@@ -1,7 +1,6 @@
 import requests
 import pandas as pd
 import plotly.express as px
-
 SYMBOL = "BTCUSDT"
 LIMIT = 1000  # max per request on this endpoint
 
