@@ -13,7 +13,7 @@ public:
     std::vector<Trade> add_limit_order(const Order& order);
     std::vector<Trade> add_market_order(OrderId id, Side side, Qty qty, Timestamp ts);
     bool cancel_order(OrderId id);
-
+    bool get_mid_price(Price &mid) const;
     bool has_bid() const;
     bool has_ask() const;
     Price best_bid() const;

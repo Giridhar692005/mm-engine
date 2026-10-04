@@ -86,7 +86,8 @@ std::vector<Trade> OrderBook::add_market_order(OrderId id, Side side, Qty qty, T
         }
     }
     return trade_;
- }
+}
+
 bool OrderBook::cancel_order(OrderId Id) { 
     if(index.find(Id)!=index.end()){
         if(index[Id].first==Side::Buy){
@@ -103,10 +104,13 @@ bool OrderBook::cancel_order(OrderId Id) {
         index.erase(Id);
         return true;
     }
-    return false; }
+    return false; 
+}
+
 bool OrderBook::has_bid() const {
     return !bids_.empty();
 }
+
 bool OrderBook::has_ask() const { 
     return !asks_.empty(); }
 Price OrderBook::best_bid() const { 
@@ -115,6 +119,12 @@ Price OrderBook::best_bid() const {
 Price OrderBook::best_ask() const { 
     return asks_.begin()->first; 
 }
+bool OrderBook::get_mid_price(Price &mid) const{
+    if(!has_bid()||!has_ask()) return false;
+    mid = (static_cast<double>(best_bid()) + static_cast<double>(best_ask())) / 2.0;
+    return true;
+}
+
 Qty OrderBook::depth_at(Side side, Price price) const { 
     Qty qt=0;
     if(side==Side::Buy){

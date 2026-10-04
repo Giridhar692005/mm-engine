@@ -3,8 +3,12 @@
 #include "mm/types.hpp"
 #include <iostream>
 #include <string>
+#include <fstream>
 #include <vector>
+#include <iomanip>
+
 using namespace mm;
+
 std::mt19937 rng(std::random_device{}());          
 Order generate_random_order(OrderId id, Price center_price, Timestamp ts){
     std::uniform_int_distribution<int> sideprob(0, 1);
@@ -32,8 +36,26 @@ void run_simulation(int num_events,Price center_price){
         }
 
     }
-}                         
+}     
+void generate_csv(int num_events,Price center_price){
+    std::ofstream file("data/generated_data.csv");
+
+    if(!file.is_open()) {
+        std::cerr << "Error opening file!" << std::endl;
+        return ;
+    }
+    file << std::fixed << std::setprecision(4);
+    file << "id,side,price,qty,ts\n";
+    for(int i=1;i<=num_events;i++){
+        Order order=generate_random_order(i , center_price , i);
+        std::string s=(order.side == Side::Buy ? "BUY" : "SELL");  
+        file<< order.id << "," << s << "," << order.price << "," << order.qty << "," << order.ts << "\n";
+    }    
+    file.close();
+    std::cout << "CSV file created successfully!" << std::endl;           
+}
 int main() {
-    run_simulation(20, 100);
+
+   
     return 0;
 }
