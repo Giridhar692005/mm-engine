@@ -1,20 +1,20 @@
-#ifndef Market_Maker_HPP
-#define Market_Maker_HPP
+#pragma once
 #include <cmath>
 #include <stdexcept>
-#include "strategy.hpp"
-class Market_Maker::public Strategy{
+#include "mm/strategy.hpp"
+namespace mm {
+class Market_Maker : public Strategy{
     public:
-       MarketMaker(double gamma, double sigma, double kappa, double T)
+       Market_Maker(double gamma, double sigma, double kappa, double T)
         : gamma_(gamma), sigma_(sigma), kappa_(kappa), T_(T) {
         if (gamma_ <= 0.0) throw std::invalid_argument("gamma must be > 0");
         if (sigma_ < 0.0) throw std::invalid_argument("sigma must be >= 0");
         if (kappa_ <= 0.0) throw std::invalid_argument("kappa must be > 0");
         if (T_ <= 0.0) throw std::invalid_argument("T must be > 0");
         }
-        Quotes compute_quotes(double s,long q,double t) const{
-            double tau;
-            tau=T_-t;
+        Quotes compute_quotes(double s,long q,double t) const override{
+            double  tau = T_ - t;
+           
 
             if(tau<0.0) tau=0.0;
 
@@ -29,11 +29,12 @@ class Market_Maker::public Strategy{
             quote.ask=quote.reservation + (quote.spread/2.0);
             return quote;
         }
-        void set_sigma(double sigma) { sigma_ = sigma; }
-        double sigma() const { return sigma_; }
+        void set_sigma(double sigma) override{ sigma_ = sigma; }
+        double sigma() const override{ return sigma_; }
     private:
     double gamma_;
     double sigma_;
     double kappa_;
     double T_;
 };
+}

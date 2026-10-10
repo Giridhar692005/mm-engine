@@ -13,12 +13,12 @@ std::mt19937 rng(std::random_device{}());
 Order generate_random_order(OrderId id, Price center_price, Timestamp ts){
     std::uniform_int_distribution<int> sideprob(0, 1);
     Side s=(sideprob(rng))? Side::Buy : Side::Sell;
-    std::uniform_int_distribution<int> dist(-10, 10);
+    std::uniform_int_distribution<double> dist(-20.0, 20.0);
     Price price=center_price+dist(rng);
     std::uniform_int_distribution<Qty> qtyprob(1, 20);
     Qty qt=qtyprob(rng);
     
-    return Order{id,s,price,qt,ts};
+    return Order{id,s,,price,qt,ts};
     
 } 
 void run_simulation(int num_events,Price center_price){

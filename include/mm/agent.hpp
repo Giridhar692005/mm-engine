@@ -1,6 +1,4 @@
-#ifndef AGENT_HPP
-#define AGENT_HPP
-
+#pragma once
 #include <vector>
 #include "order_book.hpp"
 #include "strategy.hpp"

@@ -1,5 +1,4 @@
-#ifndef STRATEGY_HPP
-#define STRATEGY_HPP
+#pragma once
 
 struct Quotes{
     double bid;
