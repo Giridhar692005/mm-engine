@@ -3,13 +3,14 @@
 #include "order_book.hpp"
 #include "strategy.hpp"
 
+using namespace mm{
 class Agent{
     public:
         Agent(Strategy* strategy,OrderBook* book, double tick, int quote_qty,long long id_base, long max_inventory);
         void set_volatility_estimator(RollingVolatility* vol) { vol_ = vol; }
 
         void on_trades(const std::vector<Trade>& trades);
-        bool requote(double ts, double t_norm);
+        bool requote(double ts, double t_norm){};
 
         long   inventory() const { return inventory_; }
         double cash() const { return cash_; }
@@ -42,3 +43,4 @@ class Agent{
 
     
 };
+}

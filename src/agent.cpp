@@ -1,6 +1,6 @@
 #include "mm/agent.hpp"
 #include "mm/market_maker.hpp"
-#include "rolling_volatility.hpp"
+#include "mm/rolling_volatility.hpp"
 #include <cmath>
 
 Agent::Agent(Strategy* strategy,OrderBook* book, double tick, int quote_qty,long long id_base, long max_inventory):
@@ -10,7 +10,7 @@ Agent::Agent(Strategy* strategy,OrderBook* book, double tick, int quote_qty,long
        last_mid_(0.0), has_mid_(false), last_bid_(0.0), last_ask_(0.0),
        last_reservation_(0.0) {}
 
-void Agent::on_trades(const std::vector<trade>& trades){
+void Agent::on_trades(const std::vector<Trade>& trades){
       for(size_t i=0;i < trades.size(); ++i){
         const Trade& t=trades[i];
         if( live_bid_id_ !=0 && t.maker_id==live_bid_id_){
@@ -34,7 +34,7 @@ bool Agent::requote(double ts, double t_norm) {
     cancel_live_quotes();
 
     double m;
-    if (book_.get_mid_price(m)) { last_mid_ = m; has_mid_ = true; }
+    if (book_->get_mid_price(m)) { last_mid_ = m; has_mid_ = true; }
     if (!has_mid_) return false;
 
     Quotes qt = strategy_->compute_quotes(last_mid_, inventory_, t_norm);

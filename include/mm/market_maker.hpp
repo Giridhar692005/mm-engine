@@ -23,7 +23,7 @@ class Market_Maker : public Strategy{
             Quotes quote;
 
             quote.reservation= s -static_cast<double>(q)*var_term;
-            quote.spread= var_term+ (2.0/gamma_)*std::log1p(1+(gamma_/kappa_));
+            quote.spread= var_term+ (2.0/gamma_)*std::log1p(gamma_/kappa_);
             
             quote.bid=quote.reservation - (quote.spread/2.0);
             quote.ask=quote.reservation + (quote.spread/2.0);

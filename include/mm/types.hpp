@@ -4,10 +4,10 @@
 namespace mm {
 
 // Prices are integer ticks, never double. Floating-point price keys in a map are a bug waiting to happen.
-using Price = std::double;
+using Price = double;
 using Qty = std::long long;
 using OrderId = std::long long;
-using Timestamp = std::double;
+using Timestamp = double;
 
 enum class Side { Buy, Sell };
 

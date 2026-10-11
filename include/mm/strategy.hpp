@@ -1,11 +1,11 @@
 #pragma once
-
+using namespace mm{
 struct Quotes{
     double bid;
     double ask;
     double reservation;
     double spread;
-}
+};
 
 class Strategy{
     public:
@@ -14,3 +14,4 @@ class Strategy{
         virtual void set_sigma(double sigma) =0;
         virtual double sigma() const = 0;
 };
+}
