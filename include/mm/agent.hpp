@@ -2,6 +2,7 @@
 #include <vector>
 #include "order_book.hpp"
 #include "strategy.hpp"
+#include "mm/rolling_volatility.hpp"
 
 using namespace mm{
 class Agent{
@@ -10,7 +11,7 @@ class Agent{
         void set_volatility_estimator(RollingVolatility* vol) { vol_ = vol; }
 
         void on_trades(const std::vector<Trade>& trades);
-        bool requote(double ts, double t_norm){};
+        bool requote(double ts, double t_norm);
 
         long   inventory() const { return inventory_; }
         double cash() const { return cash_; }

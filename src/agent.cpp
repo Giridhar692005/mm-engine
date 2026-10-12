@@ -36,7 +36,12 @@ bool Agent::requote(double ts, double t_norm) {
     double m;
     if (book_->get_mid_price(m)) { last_mid_ = m; has_mid_ = true; }
     if (!has_mid_) return false;
-
+    if(vol_ != NULL){
+       vol_->update(ts,last_mid_);
+       if(vol_->ready()){
+            strategy_->set_sigma(vol_->sigma());
+       }
+    } 
     Quotes qt = strategy_->compute_quotes(last_mid_, inventory_, t_norm);
     last_reservation_ = qt.reservation;
 
